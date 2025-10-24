@@ -14,6 +14,75 @@ fi
 rm -f Source/Cmlx/include/mlx/c/*
 cp Source/Cmlx/mlx-c/mlx/c/*.h Source/Cmlx/include/mlx/c
 
+# same for xcodeproj
+rm -f Source/Cmlx/include-framework/*.h
+cp Source/Cmlx/mlx-c/mlx/c/*.h Source/Cmlx/include-framework
+
+for x in Source/Cmlx/include-framework/*.h ; do \
+    sed -i .tmp -e 's:"mlx/c/:<Cmlx/mlx-c-:g' -e 's:#include ":#include <Cmlx/mlx-c-:g' -e 's:.h":.h>:g' $x
+done;
+rm Source/Cmlx/include-framework/*.tmp
+
+for x in Source/Cmlx/include-framework/*.h ; do \
+	mv $x `echo $x | sed -e 's:/include-framework/:/include-framework/mlx-c-:g'`
+done;
+
+cat > Source/Cmlx/include-framework/Cmlx.h <<EOF
+#include <Cmlx/mlx-c-mlx.h>
+#include <Cmlx/mlx-c-transforms_impl.h>
+#include <Cmlx/mlx-c-linalg.h>
+#include <Cmlx/mlx-c-fast.h>
+
+EOF
+
+# c++ headers for xcodeproj -- these are transitively reachable
+# from mlx/mlx/mlx.h
+
+for x in \
+    array.h \
+    backend/cuda/cuda.h \
+    backend/gpu/available.h \
+    backend/metal/metal.h \
+    compile.h \
+    device.h \
+    distributed/distributed.h \
+    distributed/ops.h \
+    einsum.h \
+    export.h \
+    fast.h \
+    fft.h \
+    io.h \
+    linalg.h \
+    memory.h \
+    ops.h \
+    random.h \
+    stream.h \
+    transforms.h \
+    utils.h \
+    version.h \
+    allocator.h \
+    dtype.h \
+    event.h \
+    small_vector.h \
+    types/complex.h \
+    types/half_types.h \
+    types/bf16.h \
+    io/load.h \
+    export_impl.h \
+    threadpool.h
+do
+    # guard the contents for non c++ callers
+    h=mlx-`echo $x | tr / -`
+    d=Source/Cmlx/include-framework/$h
+    echo "#ifdef __cplusplus" > $d
+    cat Source/Cmlx/mlx/mlx/$x | sed -e 's:backend/:backend-:g' -e 's:cuda/:cuda-:g' -e 's:gpu/:gpu-:g' -e 's:metal/:metal-:g' -e 's:distributed/:distributed-:g' -e 's:types/:types-:' -e 's:io/:io-:' -e 's:#include "mlx/:#include <Cmlx/mlx-:g' -e 's:#include ":#include <Cmlx/mlx-:g' -e 's:.h":.h>:g' >> $d
+    echo "#endif" >> $d
+    
+    # add to Cmlx
+    echo "#include <Cmlx/$h>" >> Source/Cmlx/include-framework/Cmlx.h
+done
+
+
 # run the command to do the build-time code generation
 
 mkdir build
