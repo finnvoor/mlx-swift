@@ -1383,6 +1383,11 @@
 			path = "mlx-c";
 			sourceTree = "<group>";
 		};
+		C3CB25472EB11EFE0029A645 /* framework */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = framework;
+			sourceTree = "<group>";
+		};
 		C3CBE24A2EABF7870029A645 /* include-framework */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -1512,6 +1517,7 @@
 		C3AE8EFC2EAAA40E000BD280 /* Cmlx */ = {
 			isa = PBXGroup;
 			children = (
+				C3CB25472EB11EFE0029A645 /* framework */,
 				C3CBF2682EAC23BA0029A645 /* fmt */,
 				C3CBE24A2EABF7870029A645 /* include-framework */,
 				C3AE90232EAAA47E000BD280 /* json */,
@@ -1637,6 +1643,7 @@
 				C3AE97872EAAAAAD000BD280 /* mlx-conditional */,
 				C3AE98112EAAAAAD000BD280 /* mlx-generated */,
 				C3AE9D992EAAAB29000BD280 /* mlx-c */,
+				C3CB25472EB11EFE0029A645 /* framework */,
 				C3CBE24A2EABF7870029A645 /* include-framework */,
 				C3CBF2682EAC23BA0029A645 /* fmt */,
 			);
