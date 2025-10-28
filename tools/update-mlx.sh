@@ -69,19 +69,35 @@ for x in \
     types/bf16.h \
     io/load.h \
     export_impl.h \
-    threadpool.h
+    threadpool.h \
+    scheduler.h \
+    primitives.h \
+    backend/metal/device.h \
+    backend/metal/utils.h \
+    backend/common/utils.h \
+    backend/cpu/encoder.h \
+    backend/gpu/eval.h
 do
     # guard the contents for non c++ callers
     h=mlx-`echo $x | tr / -`
     d=Source/Cmlx/include-framework/$h
     echo "#ifdef __cplusplus" > $d
-    cat Source/Cmlx/mlx/mlx/$x | sed -e 's:backend/:backend-:g' -e 's:cuda/:cuda-:g' -e 's:gpu/:gpu-:g' -e 's:metal/:metal-:g' -e 's:distributed/:distributed-:g' -e 's:types/:types-:' -e 's:io/:io-:' -e 's:#include "mlx/:#include <Cmlx/mlx-:g' -e 's:#include ":#include <Cmlx/mlx-:g' -e 's:.h":.h>:g' >> $d
+    cat Source/Cmlx/mlx/mlx/$x | sed -e 's:backend/:backend-:g' -e 's:cuda/:cuda-:g' -e 's:gpu/:gpu-:g' -e 's:metal/:metal-:g' -e 's:distributed/:distributed-:g' -e 's:types/:types-:' -e 's:io/:io-:' -e 's:common/:common-:' -e 's:cpu/:cpu-:' -e 's:#include "mlx/:#include <Cmlx/mlx-:g' -e 's:#include ":#include <Cmlx/mlx-:g' -e 's:.h":.h>:g' -e 's:Metal/Metal.hpp:Cmlx/Metal.hpp:g' >> $d
     echo "#endif" >> $d
     
     # add to Cmlx
     echo "#include <Cmlx/$h>" >> Source/Cmlx/include-framework/Cmlx.h
 done
 
+# build & copy in the Metal.hpp header
+(cd Source/Cmlx/metal-cpp; ./SingleHeader/MakeSingleHeader.py -o ../include-framework/Metal.hpp.in Foundation/Foundation.hpp QuartzCore/QuartzCore.hpp Metal/Metal.hpp MetalFX/MetalFX.hpp)
+
+echo "#ifdef __cplusplus" > Source/Cmlx/include-framework/Metal.hpp
+cat Source/Cmlx/include-framework/Metal.hpp.in >> Source/Cmlx/include-framework/Metal.hpp
+echo "#endif" >> Source/Cmlx/include-framework/Metal.hpp
+rm Source/Cmlx/include-framework/Metal.hpp.in
+
+echo "#include <Cmlx/Metal.hpp>" >> Source/Cmlx/include-framework/Cmlx.h
 
 # run the command to do the build-time code generation
 

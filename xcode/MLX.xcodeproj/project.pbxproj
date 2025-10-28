@@ -975,15 +975,21 @@
 			);
 			target = C3AE8EE52EAAA3C5000BD280 /* Cmlx */;
 		};
-		C3CB09A12EAC2EF70029A645 /* Exceptions for "include-framework" folder in "Cmlx" target */ = {
+		C3CB32A82EB1677C0029A645 /* Exceptions for "include-framework" folder in "Cmlx" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
 				Cmlx.h,
+				Metal.hpp,
 				"mlx-allocator.h",
 				"mlx-array.h",
+				"mlx-backend-common-utils.h",
+				"mlx-backend-cpu-encoder.h",
 				"mlx-backend-cuda-cuda.h",
 				"mlx-backend-gpu-available.h",
+				"mlx-backend-gpu-eval.h",
+				"mlx-backend-metal-device.h",
 				"mlx-backend-metal-metal.h",
+				"mlx-backend-metal-utils.h",
 				"mlx-c-array.h",
 				"mlx-c-closure.h",
 				"mlx-c-compile.h",
@@ -1027,7 +1033,9 @@
 				"mlx-linalg.h",
 				"mlx-memory.h",
 				"mlx-ops.h",
+				"mlx-primitives.h",
 				"mlx-random.h",
+				"mlx-scheduler.h",
 				"mlx-small_vector.h",
 				"mlx-stream.h",
 				"mlx-threadpool.h",
@@ -1040,7 +1048,7 @@
 			);
 			target = C3AE8EE52EAAA3C5000BD280 /* Cmlx */;
 		};
-		C3CB0BCF2EAC301E0029A645 /* Exceptions for "mlx-generated" folder in "Cmlx" target */ = {
+		C3CB32A92EB168CD0029A645 /* Exceptions for "mlx-generated" folder in "Cmlx" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				metal/arange.h,
@@ -1370,7 +1378,7 @@
 		C3AE98112EAAAAAD000BD280 /* mlx-generated */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C3CB0BCF2EAC301E0029A645 /* Exceptions for "mlx-generated" folder in "Cmlx" target */,
+				C3CB32A92EB168CD0029A645 /* Exceptions for "mlx-generated" folder in "Cmlx" target */,
 			);
 			path = "mlx-generated";
 			sourceTree = "<group>";
@@ -1391,7 +1399,7 @@
 		C3CBE24A2EABF7870029A645 /* include-framework */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C3CB09A12EAC2EF70029A645 /* Exceptions for "include-framework" folder in "Cmlx" target */,
+				C3CB32A82EB1677C0029A645 /* Exceptions for "include-framework" folder in "Cmlx" target */,
 			);
 			path = "include-framework";
 			sourceTree = "<group>";
